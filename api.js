@@ -221,6 +221,21 @@ function Api() {
 		});
 	});
 
+	// Получить задачи по фильтрам
+	this.getTasks = authChecker((entity_id, task_type_id) => {
+		const url = `${ROOT_PATH}/api/v4/tasks?filter[entity_id][]=${entity_id}&filter[task_type][]=${task_type_id}`;
+
+		return axios
+			.get(url, {
+				headers: {
+					Authorization: `Bearer ${access_token}`,
+				},
+			})
+			.then((res) => {
+				return res.data ? res.data._embedded.tasks : [];
+			});
+	});
+
 	// Получить данные воронки по ее id
 	this.getPipeline = authChecker((pipelineId) => {
 		return axios
