@@ -24,9 +24,9 @@ const CONTACT_SERVICES_FIELDS = [
 	}
 ];
 
-async function getPrice(contact, leadCustomFields) {	
+function getPrice(contact, lead) {	
 
-	const checkedLeadServices = utils.getFieldValues(leadCustomFields, LEAD_SERVICES_FIELD_ID);
+	const checkedLeadServices = utils.getFieldValues(lead.custom_fields_values, LEAD_SERVICES_FIELD_ID);
 	const targetLeadServices = CONTACT_SERVICES_FIELDS.filter((field) => {
 		return checkedLeadServices.includes(field.name);
 	});
