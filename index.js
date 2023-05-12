@@ -18,14 +18,14 @@ app.post("/api/leads", async (req, res) => {
 		return res.json("Lead have no contacts");
 	}
 
-	const price = await getPrice(leadContact.id, lead.custom_fields_values);
+	const contact = await api.getContact(leadContact.id);
+	const price = getPrice(contact.id, lead.custom_fields_values);
 
-	if (Number(lead.price) !== Number(price)) {
+	if (Number(lead.price) !== price) {
 		api.updateDeals([{
 			id: Number(lead.id),
 			price
 		}]);
-
 	}
 	
 	return res.json("ok");
