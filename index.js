@@ -33,14 +33,15 @@ app.post("/api/leads", async (req, res) => {
 			price
 		}]);
 
-		const [task] = await api.getTasks(lead.id, TASK_TYPE_ID);
-		if(!task) {
+		const tasks = await api.getTasks(lead.id, TASK_TYPE_ID);
+		if(!tasks.filter(task => task.is_completed === false).length) {
 			const priceCheckTask = {
 				entity_id: lead.id,
 				entity_type: "leads",
 				task_type_id: TASK_TYPE_ID, 
 				text: PRICE_CHECK_TASK_TEXT, 
-				complete_till: Math.floor(Date.now() / 1000) + DAY_SECONDS
+				complete_till: Math.floor(Date.now() / 1000) + DAY_SECONDS,
+				responsible_user_id: lead.responsible_user_id
 			};
 			api.createTasks(priceCheckTask);
 		}
