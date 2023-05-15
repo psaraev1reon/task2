@@ -40,11 +40,18 @@ app.post("/api/leads", async (req, res) => {
 				task_type_id: TASK_TYPE_ID, 
 				text: PRICE_CHECK_TASK_TEXT, 
 				complete_till: Math.floor(Date.now() / 1000) + DAY_SECONDS
-			
 			};
-			api.createTasks([priceCheckTask]);
+			api.createTasks(priceCheckTask);
 		}
 	}
+	
+	return res.json("ok");
+});
+
+app.post("/api/tasks", async (req, res) => {
+	const tasks = req.body.task.update;
+
+	console.log(tasks);
 	
 	return res.json("ok");
 });
