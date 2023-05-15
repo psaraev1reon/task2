@@ -7,6 +7,7 @@ const getPrice = require("./helpers/getPrice");
 const TASK_TYPE_ID = 2911698;
 const PRICE_CHECK_TASK_TEXT = "Проверить бюджет";
 const DAY_SECONDS = 60 * 60 * 24;
+const CHECKED_NOTE_TEXT = "Бюджет проверен, ошибок нет";
 
 const app = express();
 
@@ -43,6 +44,22 @@ app.post("/api/leads", async (req, res) => {
 			};
 			api.createTasks(priceCheckTask);
 		}
+	}
+	
+	return res.json("ok");
+});
+
+app.post("/api/tasks", async (req, res) => {
+	const tasks = req.body.task.update;
+	const [task] = tasks.filter(task => Number(task.task_type) === TASK_TYPE_ID);
+
+	if(task) {
+		const priceCheckedNote = {
+			entity_id: Number(task.element_id),
+			note_type: "common",
+			params: { text: CHECKED_NOTE_TEXT}			
+		};
+		api.createNotes(priceCheckedNote);
 	}
 	
 	return res.json("ok");
