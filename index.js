@@ -48,12 +48,4 @@ app.post("/api/leads", async (req, res) => {
 	return res.json("ok");
 });
 
-app.post("/api/tasks", async (req, res) => {
-	const tasks = req.body.task.update;
-
-	console.log(tasks);
-	
-	return res.json("ok");
-});
-
 app.listen(config.PORT, () => logger.debug("Server started on ", config.PORT));
